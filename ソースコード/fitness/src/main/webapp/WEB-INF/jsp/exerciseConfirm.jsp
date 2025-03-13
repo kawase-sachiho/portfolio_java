@@ -1,22 +1,24 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <!DOCTYPE html>
 <html>
 <head>
 <%@ include file="/WEB-INF/jsp/include/head.jsp"%>
-<title>運動記録の確認</title>
+<title>運動記録の詳細</title>
 </head>
 <body>
 	<div class="container mt-5">
-		<h1 class="text-center text-warning py-2">${selectCategory.categoryName}の記録詳細</h1>
+		<h1 class="text-center text-warning py-2">${selectCategory.categoryName}の記録の詳細</h1>
 		<div class="row my-2 justify-content-center">
 			<div class="col-10 table-responsive">
 				<table>
 					<tr class="scope-row">
 						<th class="text col-2">日付</th>
-						<td class="text col-8">${detailedExerciseModel.implementedDate }</td>
+						<fmt:formatDate var="date" value="${detailedExerciseModel.implementedDate}"
+							pattern="yyyy/MM/dd" />
+						<td class="text col-8">${date }</td>
 					</tr>
 					<tr class="scope-row">
 						<th class="text col-2">時間</th>
