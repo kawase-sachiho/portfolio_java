@@ -10,7 +10,11 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import logic.ExerciseLogic;
+import logic.HealthInformationLogic;
+import logic.HealthRecordLogic;
 import model.ExerciseModel;
+import model.HealthInformationModel;
+import model.HealthRecordModel;
 import model.UserModel;
 
 /**
@@ -46,10 +50,30 @@ public class MainServlet extends HttpServlet {
 			int userId = loginUser.getId();
 
 			//最も新しい運動履歴を取得する
-			ExerciseLogic logic = new ExerciseLogic();
-			ExerciseModel lastTimeExercise=logic.findLastTimeExercise(userId);
+			ExerciseLogic exerciseLogic = new ExerciseLogic();
+			ExerciseModel lastTimeExercise=exerciseLogic.findLastTimeExercise(userId);
 			
+			//最も新しい健康状態の記録を取得する
+			HealthRecordLogic healthLogic=new HealthRecordLogic();
+			HealthRecordModel lastTimeRecord=healthLogic.findLastTimeRecord(userId);
+			
+			//健康状態の基本情報を取得する
+			HealthInformationLogic informationLogic=new HealthInformationLogic();
+			HealthInformationModel healthInformation=informationLogic.findOneByUserId(userId);
+			
+			//BMIを計算して取得する
+			double height = healthInformation.getHeight();
+			double convertHeight = height / 100;
+			double bmi = lastTimeRecord.getWeight() / convertHeight / convertHeight;
+			double bmiTimesTen=bmi * 10;
+			double roundBmi=Math.round(bmiTimesTen);
+			double convertBmi=roundBmi/10;
+			
+			//運動履歴、健康状態の記録・基本情報、BMIを保存する
 			session.setAttribute("lastTimeExercise",lastTimeExercise);
+			session.setAttribute("lastTimeRecord",lastTimeRecord);
+			session.setAttribute("healthInformation",healthInformation);
+			session.setAttribute("convertBmi",convertBmi);
 			
 			//TOP画面に遷移する
 			RequestDispatcher dispatcher = request.getRequestDispatcher("WEB-INF/jsp/main.jsp");

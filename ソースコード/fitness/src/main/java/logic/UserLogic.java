@@ -14,9 +14,7 @@ public class UserLogic {
 	 * @param mail String型 メールアドレスを照合
 	 * @param pass String型 パスワードを照合
 	 * @return loginUser UserModel型 ログイン中のユーザーの情報が入った配列
-	 * @throws ClassNotFoundException
-	 * @throws SQLException
-	 */
+	*/
 	public UserModel login(String mail, String pass) throws ClassNotFoundException, SQLException {
 		try (DBConnection db = new DBConnection()) {
 			Connection conn = db.getInstance();
@@ -33,8 +31,6 @@ public class UserLogic {
 	 * @param pass String型 パスワードを登録
 	 * @param userName String型 ユーザー名を登録
 	 * @return daoの実行結果を返す
-	 * @throws ClassNotFoundException
-	 * @throws SQLException
 	 */
 	public boolean create(String mail, String pass, String userName) throws ClassNotFoundException, SQLException {
 		try (DBConnection db = new DBConnection()) {
@@ -49,8 +45,6 @@ public class UserLogic {
 	 * @param connection
 	 * @param mail String型 メールアドレスを照合
 	 * @return registeredUser UserModel型 登録済のユーザーの情報が入った配列
-	 * @throws ClassNotFoundException
-	 * @throws SQLException
 	 */
 	public UserModel findByMail(String mail) throws ClassNotFoundException, SQLException {
 		try (DBConnection db = new DBConnection()) {
@@ -69,8 +63,6 @@ public class UserLogic {
 	 * @param userName String型 ユーザー名を登録
 	 * @param id int型 ユーザーのID ログイン中のユーザーから取得
 	 * @return daoの実行結果を返す
-	 * @throws ClassNotFoundException
-	 * @throws SQLException
 	 */
 	public boolean update(String mail, String pass, String userName, int id)
 			throws ClassNotFoundException, SQLException {
@@ -86,8 +78,6 @@ public class UserLogic {
 	 * @param connection
 	 * @param id int型 ユーザーのID ログイン中のユーザーから取得
 	 * @return updatedUser UserModel型 更新されたユーザーの情報が入った配列
-	 * @throws ClassNotFoundException
-	 * @throws SQLException
 	 */
 	public UserModel findUpdatedUser(int id) throws ClassNotFoundException, SQLException {
 		try (DBConnection db = new DBConnection()) {

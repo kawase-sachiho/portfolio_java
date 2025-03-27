@@ -10,7 +10,7 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
-import logic.ConvertTimeLogic;
+import logic.ConvertLogic;
 import logic.ExerciseLogic;
 import model.ExerciseModel;
 import model.UserModel;
@@ -59,7 +59,7 @@ public class HistoryServlet extends HttpServlet {
 			}
 			
 			//time1の合計を時間単位に変換して保存する
-	        ConvertTimeLogic timeLogic=new ConvertTimeLogic();
+	        ConvertLogic timeLogic=new ConvertLogic();
 	        String convertedTime1Sum=timeLogic.getTimeSum(time1Sum);
 			
 	        session.setAttribute("convertedTime1Sum", convertedTime1Sum);

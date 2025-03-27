@@ -3,7 +3,6 @@ package logic;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.SQLException;
-import java.sql.Timestamp;
 import java.util.List;
 
 import common.database.DBConnection;
@@ -15,8 +14,6 @@ public class ExerciseLogic {
 	 * 前回運動した日の運動時間を抽出するメソッド
 	 * @param userId int型 ユーザーID ログイン中のユーザーの情報から取得
 	 * @return daoの実行結果を返す
-	 * @throws ClassNotFoundException
-	 * @throws SQLException
 	 */
 	public ExerciseModel findLastTimeExercise(int userId) throws ClassNotFoundException, SQLException {
 		try (DBConnection db = new DBConnection()) {
@@ -31,8 +28,6 @@ public class ExerciseLogic {
 	 * @param userId int型 ユーザーID ログイン中のユーザーの情報から取得
 	 * @param categoryId int型 カテゴリーID 選択中のカテゴリーの情報から取得
 	 * @return daoの実行結果を返す
-	 * @throws ClassNotFoundException
-	 * @throws SQLException
 	 */
 	public List<ExerciseModel> getAllByCategory(int userId, int categoryId)
 			throws ClassNotFoundException, SQLException {
@@ -49,8 +44,6 @@ public class ExerciseLogic {
 	 * @param userId int型 ユーザーID ログイン中のユーザーの情報から取得
 	 * @param categoryId int型 カテゴリーID 選択中のカテゴリーの情報から取得
 	 * @return daoの実行結果を返す
-	 * @throws ClassNotFoundException
-	 * @throws SQLException
 	 */
 	public ExerciseModel show(int id, int userId, int categoryId) throws ClassNotFoundException, SQLException {
 		try (DBConnection db = new DBConnection()) {
@@ -69,8 +62,6 @@ public class ExerciseLogic {
 	 * @param content 運動内容 必須項目
 	 * @param comment 感想 nullでも可能
 	 * @return daoの実行結果を返す
-	 * @throws ClassNotFoundException
-	 * @throws SQLException
 	 */
 	public boolean create(int userId, int categoryId, Date implementedDate, int time, String content, String comment)
 			throws ClassNotFoundException, SQLException {
@@ -87,8 +78,6 @@ public class ExerciseLogic {
 	 * @param categoryId int型 カテゴリーID 選択中のカテゴリーの情報から取得
 	 * @param implementedDate Date型 実施日を登録する
 	 * @return daoの実行結果を返す
-	 * @throws ClassNotFoundException
-	 * @throws SQLException
 	 */
 	public ExerciseModel findByDate(int userId, int categoryId, Date implementedDate)
 			throws ClassNotFoundException, SQLException {
@@ -108,15 +97,13 @@ public class ExerciseLogic {
 	 * @param updatedDateTime Timestamp型 更新した日を登録
 	 * @param id int型 運動記録のID
 	 * @return daoの実行結果を返す
-	 * @throws ClassNotFoundException
-	 * @throws SQLException
 	 */
-	public boolean update(Date implementedDate, int time, String content, String comment, Timestamp updateDateTime,
+	public boolean update(Date implementedDate, int time, String content, String comment, 
 			int id) throws ClassNotFoundException, SQLException {
 		try (DBConnection db = new DBConnection()) {
 			Connection conn = db.getInstance();
 			ExerciseDAO dao = new ExerciseDAO();
-			return dao.update(conn, implementedDate, time, content, comment, updateDateTime, id);
+			return dao.update(conn, implementedDate, time, content, comment, id);
 		}
 	}
 
@@ -125,14 +112,12 @@ public class ExerciseLogic {
 	 * @param updatedDateTime 更新した日をTimestamp型で登録
 	 * @param id int型 ID 運動記録のID
 	 * @return daoの実行結果を返す
-	 * @throws ClassNotFoundException
-	 * @throws SQLException
 	 */
-	public boolean delete(Timestamp updateDateTime, int id) throws ClassNotFoundException, SQLException {
+	public boolean delete(int id) throws ClassNotFoundException, SQLException {
 		try (DBConnection db = new DBConnection()) {
 			Connection conn = db.getInstance();
 			ExerciseDAO dao = new ExerciseDAO();
-			return dao.delete(conn, updateDateTime, id);
+			return dao.delete(conn, id);
 		}
 	}
 
@@ -141,8 +126,6 @@ public class ExerciseLogic {
 	 * 各カテゴリーの運動時間を配列に格納するメソッド 
 	 * @param userId int型 ユーザーID ログイン中のユーザーの情報から取得
 	 * @return daoの実行結果を返す
-	 * @throws ClassNotFoundException
-	 * @throws SQLException
 	 */
 	public List<ExerciseModel> findAllExercises(int userId) throws ClassNotFoundException, SQLException {
 		try (DBConnection db = new DBConnection()) {

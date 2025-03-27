@@ -182,22 +182,19 @@ public class ExerciseDAO {
 	 * @param id int型 運動記録のID
 	 * @return boolean型 SQLが実行されればtrueを返す
 	 */
-	public boolean update(Connection connection, Date implementedDate, int time, String content, String comment,
-			java.sql.Timestamp updatedDateTime, int id) {
+	public boolean update(Connection connection, Date implementedDate, int time, String content, String comment, int id) {
 		String sql = "UPDATE EXERCISES"
 				+ " SET IMPLEMENTED_DATE=?"
 				+ ", TIME=?"
 				+ ", CONTENT=?"
 				+ ", COMMENT=?"
-				+ ", UPDATE_DATE_TIME=?"
 				+ " WHERE ID=?";
 		try (PreparedStatement stmt = connection.prepareStatement(sql)) {
 			stmt.setDate(1, implementedDate);
 			stmt.setInt(2, time);
 			stmt.setString(3, content);
 			stmt.setString(4, comment);
-			stmt.setTimestamp(5, updatedDateTime);
-			stmt.setInt(6, id);
+			stmt.setInt(5, id);
 			stmt.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -212,14 +209,12 @@ public class ExerciseDAO {
 	 * @param id int型 ID 運動記録のID
 	 * @return boolean型 SQLが実行されればtrueを返す
 	 */
-	public boolean delete(Connection connection, java.sql.Timestamp updatedDateTime, int id) {
+	public boolean delete(Connection connection, int id) {
 		String sql = "UPDATE EXERCISES"
 				+ " SET IS_DELETED=1"
-				+ ",UPDATE_DATE_TIME=?"
 				+ " WHERE ID=?";
 		try (PreparedStatement stmt = connection.prepareStatement(sql)) {
-			stmt.setTimestamp(1, updatedDateTime);
-			stmt.setInt(2, id);
+			stmt.setInt(1, id);
 			stmt.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();

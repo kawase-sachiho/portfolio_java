@@ -4,8 +4,6 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
-import filter.OneTimeTokenCheckFilter;
-import filter.OneTimeTokenFilter;
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -13,6 +11,8 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import logic.OneTimeTokenCheckLogic;
+import logic.OneTimeTokenLogic;
 import logic.UserLogic;
 import model.UserModel;
 import validation.UserValidation;
@@ -30,8 +30,8 @@ public class UserUpdateServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		try {
-			//トークンのチェック
-			OneTimeTokenFilter.tokenGenerate(request, response);
+			//トークンの生成
+			OneTimeTokenLogic.tokenGenerate(request, response);
 
 			//ログイン中のユーザーを取得・保持する
 			HttpSession session = request.getSession();
@@ -64,9 +64,8 @@ public class UserUpdateServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		try {
-			//トークンの生成
-			OneTimeTokenCheckFilter.tokenCheck(request, response);
-
+			//トークンのチェック
+			OneTimeTokenCheckLogic.tokenCheck(request, response);
 			//セッションに保存されているメッセージを破棄する
 			HttpSession session = request.getSession();
 			session.removeAttribute("Msg");

@@ -19,11 +19,15 @@
 			<a class="col-8 btn btn-lg btn-info" href="./History">運動履歴</a>
 		</div>
 		<div class="row mb-2 justify-content-center">
+			<a class="col-8 btn btn-lg btn-success text-white" href="./Management">健康管理</a>
+		</div>
+		<div class="row mb-2 justify-content-center">
+			<c:if test="${lastTimeExercise!=null}">
 			<div class="col-8">
 				<p class="text text-center">前回の運動記録</p>
-				<li style="list-style: none;"><fmt:formatDate var="date"
+				<li style="list-style: none;"><fmt:formatDate var="exerciseDate"
 						value="${lastTimeExercise.implementedDate}" pattern="yyyy/MM/dd" />
-					<ul class="sub-text">${date}
+					<ul class="sub-text">${exerciseDate}
 					</ul>
 					<ul class="sub-text">有酸素運動：${lastTimeExercise.time1}分
 					</ul>
@@ -32,6 +36,22 @@
 					<ul class="sub-text">ストレッチ：${lastTimeExercise.time3}分
 					</ul></li>
 			</div>
+			</c:if>
+			<c:if test="${lastTimeRecord!=null}">
+			<div class="col-8">
+			<p class="text text-center">健康状態の記録</p>
+				<li style="list-style: none;"><fmt:formatDate var="healthDate"
+						value="${lastTimeRecord.registrationDate}" pattern="yyyy/MM/dd" />
+					<ul class="sub-text">${healthDate}
+					</ul>
+					<ul class="sub-text">身長：${healthInformation.height }kg
+					</ul></li>
+					<ul class="sub-text">体重：${lastTimeRecord.weight }kg
+					</ul></li>
+					<ul class="sub-text">BMI：${convertBmi }
+					</ul></li>
+					</div>
+			</c:if>
 		</div>
 		<div class="row mt-2 justify-content-center">
 			<a class="col-8 btn btn btn-warning text-white" href="./UserUpdate">ユーザー情報編集</a>

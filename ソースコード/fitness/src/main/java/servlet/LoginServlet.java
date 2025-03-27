@@ -3,8 +3,6 @@ package servlet;
 import java.io.IOException;
 import java.sql.SQLException;
 
-import filter.OneTimeTokenCheckFilter;
-import filter.OneTimeTokenFilter;
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -12,6 +10,8 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import logic.OneTimeTokenCheckLogic;
+import logic.OneTimeTokenLogic;
 import logic.UserLogic;
 import model.UserModel;
 
@@ -27,14 +27,14 @@ public class LoginServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		
+
 		// セッションを全て破棄する
 		HttpSession session = request.getSession();
 		session.invalidate();
 
 		//トークンの生成
-	    OneTimeTokenFilter.tokenGenerate(request, response);
-		
+		OneTimeTokenLogic.tokenGenerate(request, response);
+
 		//ログインページへ遷移する
 		RequestDispatcher dispatcher = request.getRequestDispatcher("WEB-INF/jsp/login.jsp");
 		dispatcher.forward(request, response);
@@ -49,15 +49,14 @@ public class LoginServlet extends HttpServlet {
 			throws ServletException, IOException {
 		try {
 			//トークンのチェック
-		    OneTimeTokenCheckFilter.tokenCheck(request, response);
-
+			OneTimeTokenCheckLogic.tokenCheck(request, response);
 			//リクエストパラメータの取得
 			request.setCharacterEncoding("UTF-8");
 			String mail = request.getParameter("mail");
 			String pass = request.getParameter("pass");
 			//ログイン処理実行
-			UserLogic logic = new UserLogic();
-			UserModel loginUser = logic.login(mail, pass);
+			UserLogic loginLogic = new UserLogic();
+			UserModel loginUser = loginLogic.login(mail, pass);
 
 			//ログイン情報が取得できた場合
 			if (loginUser != null) {
@@ -65,14 +64,29 @@ public class LoginServlet extends HttpServlet {
 				session.setAttribute("loginUser", loginUser);
 				//TOP画面へ遷移する
 				response.sendRedirect("./Main");
-			}else {
-			//ログイン画面へ遷移する
-			String errorMsg="メースアドレスかパスワードが間違っています";
-			HttpSession session = request.getSession();
-			session.setAttribute("Msg", errorMsg);
-			RequestDispatcher dispatcher = request.getRequestDispatcher("WEB-INF/jsp/login.jsp");
-			dispatcher.forward(request, response);
-			return;
+			} else {
+				//ログインできなかった場合
+				//メールアドレスからユーザーを検索
+				UserLogic findLogic = new UserLogic();
+				UserModel registerdUser = findLogic.findByMail(mail);
+
+				//メールアドレスが登録されていない場合
+				if (registerdUser == null) {
+					String errorMsg = "未登録のメールアドレスです";
+					HttpSession session = request.getSession();
+					session.setAttribute("Msg", errorMsg);
+					RequestDispatcher dispatcher = request.getRequestDispatcher("WEB-INF/jsp/login.jsp");
+					dispatcher.forward(request, response);
+					return;
+				//登録済のメールアドレスが入力された場合
+				} else {
+					String errorMsg = "パスワードが間違っています";
+					HttpSession session = request.getSession();
+					session.setAttribute("Msg", errorMsg);
+					RequestDispatcher dispatcher = request.getRequestDispatcher("WEB-INF/jsp/login.jsp");
+					dispatcher.forward(request, response);
+					return;
+				}
 			}
 			//エラーが起きた場合、エラーページに遷移する
 		} catch (ClassNotFoundException | SQLException e) {

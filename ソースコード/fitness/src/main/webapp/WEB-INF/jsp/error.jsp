@@ -11,9 +11,9 @@
 <body>
 	<div class="container mt-5">
 		<h1 class="text-center text-warning py-2">エラー発生</h1>
-		<p class="text text-center">エラーが発生しました。</p>					
+		<p class="text-center">エラーが発生しました。</p>					
 						<c:if test="${not empty Msg}">
-							<p class="text text-center text-danger">${Msg }</p>
+							<p class="text-center text-danger">${Msg }</p>
 						</c:if>
 		<div class="row text-right my-2">
 			<div class="col-8"></div>

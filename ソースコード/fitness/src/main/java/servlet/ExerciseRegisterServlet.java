@@ -4,8 +4,6 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
-import filter.OneTimeTokenCheckFilter;
-import filter.OneTimeTokenFilter;
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -14,6 +12,8 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import logic.ExerciseLogic;
+import logic.OneTimeTokenCheckLogic;
+import logic.OneTimeTokenLogic;
 import model.CategoryModel;
 import model.ExerciseModel;
 import model.UserModel;
@@ -34,7 +34,7 @@ public class ExerciseRegisterServlet extends HttpServlet {
 		// 運動記録の新規作成ページを表示
 		try {
 			//トークンの生成
-			OneTimeTokenFilter.tokenGenerate(request, response);
+			OneTimeTokenLogic.tokenGenerate(request, response);
 
 			HttpSession session = request.getSession();
 
@@ -73,8 +73,8 @@ public class ExerciseRegisterServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		try {
-			OneTimeTokenCheckFilter.tokenCheck(request, response);
-			//セッションに保存されたメッセージを破棄する
+			//トークンのチェック
+			OneTimeTokenCheckLogic.tokenCheck(request, response);			//セッションに保存されたメッセージを破棄する
 			HttpSession session = request.getSession();
 			session.removeAttribute("Msg");
 			//カテゴリーを取得・保持する

@@ -11,7 +11,9 @@
 <body>
 	<div class="container mt-5">
 		<h1 class="text-center text-warning py-2">運動履歴</h1>
-		<p class="sub-text text-center">最大30日分表示します。現在<span class="font-weight-bold">${totalDays}日分</span>登録されています。</p>
+		<p class="sub-text text-center">過去30日分まで表示します。現在<span class="font-weight-bold">${totalDays}日分</span>登録されています。</p>
+			<c:choose>
+  <c:when test="${not empty allExerciseModels}">
 			<div class="table-responsive justify-content-center">
 				<table>
 				<thead class="table-secondary">
@@ -46,6 +48,11 @@
 						</tr>
 				</table>
 			</div>
+			</c:when>
+  <c:otherwise>
+  <p class="text text-center">※運動履歴がありません</p>
+  </c:otherwise>
+</c:choose>
 		<div class="row mt-2">
 			<div class="col-9"></div>
 			<a class="text text-dark" style="text-decoration: underline;"

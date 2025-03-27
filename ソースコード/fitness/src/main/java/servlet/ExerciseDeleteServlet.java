@@ -1,8 +1,6 @@
 package servlet;
 
 import java.io.IOException;
-import java.sql.Timestamp;
-import java.time.LocalDateTime;
 
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
@@ -54,11 +52,7 @@ public class ExerciseDeleteServlet extends HttpServlet {
 			ExerciseLogic logic;
 			logic = new ExerciseLogic();
 
-			//本日の日付、現在のタイムスタンプを取得
-			LocalDateTime nowDate = LocalDateTime.now();
-			Timestamp updatedDateTime = Timestamp.valueOf(nowDate);
-
-			boolean result = logic.delete(updatedDateTime, id);
+			boolean result = logic.delete(id);
 
 			//削除処理が成功した場合
 			if (result) {

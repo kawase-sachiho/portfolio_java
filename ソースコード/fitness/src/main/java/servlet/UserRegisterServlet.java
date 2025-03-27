@@ -5,8 +5,6 @@ import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
 
-import filter.OneTimeTokenCheckFilter;
-import filter.OneTimeTokenFilter;
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -14,6 +12,8 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import logic.OneTimeTokenCheckLogic;
+import logic.OneTimeTokenLogic;
 import logic.UserLogic;
 import model.UserModel;
 import validation.UserValidation;
@@ -34,8 +34,8 @@ public class UserRegisterServlet extends HttpServlet {
 			HttpSession session = request.getSession();
 			session.removeAttribute("Msg");
 			
-			//トークンのチェック
-			OneTimeTokenFilter.tokenGenerate(request, response);
+			//トークンの生成
+			OneTimeTokenLogic.tokenGenerate(request, response);
 
 			//ユーザー登録ページを表示する
 			RequestDispatcher dispatcher = request.getRequestDispatcher("WEB-INF/jsp/userRegister.jsp");
@@ -60,8 +60,7 @@ public class UserRegisterServlet extends HttpServlet {
 			throws ServletException, IOException {
 		try {
 			//トークンのチェック
-			OneTimeTokenCheckFilter.tokenCheck(request, response);
-
+			OneTimeTokenCheckLogic.tokenCheck(request, response);
 			//セッションに保存されたメッセージを破棄する
 			HttpSession session = request.getSession();
 
@@ -100,7 +99,7 @@ public class UserRegisterServlet extends HttpServlet {
 			//既に同一のアドレスのユーザーがいた場合
 			if (registeredUser != null) {
 				//エラーメッセージをセッションに登録する
-				String errorMsg = "同一のメースアドレスのユーザーが既に存在します";
+				String errorMsg = "同一のメールアドレスのユーザーが既に存在します";
 				session.setAttribute("Msg", errorMsg);
 
 				//inputタグの入力値を保持する

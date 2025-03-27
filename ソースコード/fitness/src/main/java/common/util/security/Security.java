@@ -18,17 +18,14 @@ public class Security {
 
 	try
 	{
-
 		random = SecureRandom.getInstance("SHA1PRNG");
-
 		//乱数を生成する
 		random.nextBytes(token);
 
 		for (int i = 0; i < token.length; i++) {
-			// formatメソッドを使って16進数に変換する。（"%02x"は16進数の意味）
-			// 16進数に変換した文字列を後ろへ追加していく。
+			// formatメソッドを使って16進数に変換（"%02x"は16進数）
+			// 16進数に変換した文字列を後ろへ追加していく
 			buf.append(String.format("%02x", token[i]));
-
 		}
 		return buf.toString();
 	}catch(

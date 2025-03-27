@@ -13,6 +13,8 @@
 <body>
 	<div class="container mt-5">
 		<h1 class="text-center text-warning py-2">${selectCategory.categoryName}の運動記録</h1>
+		<c:choose>
+  <c:when test="${not empty exerciseModels}">
 		<div class="row my-2 justify-content-center">
 			<div class="col-10 table-responsive">
 				<table class="table-striped table-bordered">
@@ -54,6 +56,11 @@
 				</table>
 			</div>
 		</div>
+		</c:when>
+  <c:otherwise>
+  <p class="text text-center">※運動記録が登録されていません</p>
+  </c:otherwise>
+</c:choose>
 		<div class="row mt-2">
 		<div class="col-9"></div>
 			<a class="btn btn-primary"

@@ -1,13 +1,9 @@
 package servlet;
 
 import java.io.IOException;
-import java.sql.Timestamp;
-import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
 
-import filter.OneTimeTokenCheckFilter;
-import filter.OneTimeTokenFilter;
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -16,6 +12,8 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import logic.ExerciseLogic;
+import logic.OneTimeTokenCheckLogic;
+import logic.OneTimeTokenLogic;
 import model.CategoryModel;
 import model.ExerciseModel;
 import model.UserModel;
@@ -34,7 +32,9 @@ public class ExerciseUpdateServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		try {
-			OneTimeTokenFilter.tokenGenerate(request, response);
+			//トークンの生成
+			OneTimeTokenLogic.tokenGenerate(request, response);
+
 			request.setCharacterEncoding("UTF-8");
 			//送信されてきたidを取得する
 			HttpSession session = request.getSession();
@@ -88,9 +88,9 @@ public class ExerciseUpdateServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		try {
-			//トークンのチェックを行う
-			OneTimeTokenCheckFilter.tokenCheck(request, response);
-
+			//トークンのチェック
+			OneTimeTokenCheckLogic.tokenCheck(request, response);
+			
 			//エラーメッセージの削除を行う
 			HttpSession session = request.getSession();
 			session.removeAttribute("Msg");
@@ -113,9 +113,7 @@ public class ExerciseUpdateServlet extends HttpServlet {
 			int id = Integer.parseInt(request.getParameter("id"));
 			String content = request.getParameter("content");
 			String comment = request.getParameter("comment");
-			LocalDateTime nowDate = LocalDateTime.now();
-			Timestamp updatedDateTime = Timestamp.valueOf(nowDate);
-
+			
 			//Exerciseバリデーションを行う
 			ExerciseValidation validate = new ExerciseValidation(request);
 			Map<String, String> errors = validate.validate();
@@ -168,15 +166,14 @@ public class ExerciseUpdateServlet extends HttpServlet {
 					exercise.put("comment", comment);
 					request.setAttribute("exercise", exercise);
 					// 登録ページへフォワードする
-					RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/exerciseRegister.jsp");
+					RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/exerciseUpdate.jsp");
 					dispatcher.forward(request, response);
-
 					return;
 				}
 			}
 
 			//運動記録の更新処理を行う
-			boolean result = logic.update(implementedDate, time, content, comment, updatedDateTime, id);
+			boolean result = logic.update(implementedDate, time, content, comment, id);
 
 			//更新処理に成功した場合
 			if (result) {
