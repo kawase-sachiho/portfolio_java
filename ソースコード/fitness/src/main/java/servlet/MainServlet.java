@@ -70,10 +70,10 @@ public class MainServlet extends HttpServlet {
 			double convertBmi=roundBmi/10;
 			
 			//運動履歴、健康状態の記録・基本情報、BMIを保存する
-			session.setAttribute("lastTimeExercise",lastTimeExercise);
-			session.setAttribute("lastTimeRecord",lastTimeRecord);
-			session.setAttribute("healthInformation",healthInformation);
-			session.setAttribute("convertBmi",convertBmi);
+			request.setAttribute("lastTimeExercise",lastTimeExercise);
+			request.setAttribute("lastTimeRecord",lastTimeRecord);
+			request.setAttribute("healthInformation",healthInformation);
+			request.setAttribute("convertBmi",convertBmi);
 			
 			//TOP画面に遷移する
 			RequestDispatcher dispatcher = request.getRequestDispatcher("WEB-INF/jsp/main.jsp");

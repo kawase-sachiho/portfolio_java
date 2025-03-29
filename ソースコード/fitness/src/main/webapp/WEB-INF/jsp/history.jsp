@@ -11,48 +11,59 @@
 <body>
 	<div class="container mt-5">
 		<h1 class="text-center text-warning py-2">運動履歴</h1>
-		<p class="sub-text text-center">過去30日分まで表示します。現在<span class="font-weight-bold">${totalDays}日分</span>登録されています。</p>
-			<c:choose>
-  <c:when test="${not empty allExerciseModels}">
-			<div class="table-responsive justify-content-center">
-				<table>
-				<thead class="table-secondary">
-					<tr class="scope-row">
-						<th class="table-text no-wrap col-2 table-bordered">日付</th>
-						<th class="table-text no-wrap col-2 table-bordered">有酸素運動</th>
-						<th class="table-text no-wrap col-2 table-bordered">筋トレ</th>
-						<th class="table-text no-wrap col-2 table-bordered">ストレッチ</th>
-						<th class="table-text no-wrap col-2 table-bordered">合計</th>
-					</tr>
-					</thead>
-					<c:forEach var="allExerciseModel" items="${allExerciseModels}">
-						<fmt:formatDate var="date" value="${allExerciseModel.implementedDate}"
-							pattern="yyyy/MM/dd" />
+		<p class="sub-text text-center">
+			過去30日分まで表示します。現在<span class="font-weight-bold">${totalDays}日分</span>登録されています。
+		</p>
+		<c:choose>
+			<c:when test="${not empty allExerciseModels}">
+				<div class="table-responsive justify-content-center">
+					<table>
+						<thead class="table-secondary">
+							<tr class="scope-row">
+								<th class="table-text no-wrap col-2 table-bordered">日付</th>
+								<th class="table-text no-wrap col-2 table-bordered">有酸素運動</th>
+								<th class="table-text no-wrap col-2 table-bordered">筋トレ</th>
+								<th class="table-text no-wrap col-2 table-bordered">ストレッチ</th>
+								<th class="table-text no-wrap col-2 table-bordered">合計</th>
+							</tr>
+						</thead>
+						<c:forEach var="allExerciseModel" items="${allExerciseModels}">
+							<fmt:formatDate var="date"
+								value="${allExerciseModel.implementedDate}" pattern="yyyy/MM/dd" />
+							<tr class="scope-row">
+								<td class="text col-2 table-bordered"><c:out
+										value="${date}" /></td>
+
+								<td class="text col-2 table-bordered"><c:out
+										value="${allExerciseModel.time1}分" /></td>
+								<td class="text col-2 table-bordered"><c:out
+										value="${allExerciseModel.time2}分" /></td>
+								<td class="text col-2 table-bordered"><c:out
+										value="${allExerciseModel.time3}分" /></td>
+								<td class="text col-2 table-bordered"><c:out
+										value="${allExerciseModel.time1+allExerciseModel.time2+allExerciseModel.time3}分" /></td>
+							</tr>
+						</c:forEach>
 						<tr class="scope-row">
-							<td class="text col-2 table-bordered"><c:out value="${date}" /></td>
-							
-							<td class="text col-2 table-bordered"><c:out value="${allExerciseModel.time1}分" /></td>
-							<td class="text col-2 table-bordered"><c:out value="${allExerciseModel.time2}分" /></td>
-							<td class="text col-2 table-bordered"><c:out value="${allExerciseModel.time3}分" /></td>
+							<th class="table-text col-2 table-bordered"><c:out
+									value="合計" />
+							</td>
 							<td class="text col-2 table-bordered"><c:out
-									value="${allExerciseModel.time1+allExerciseModel.time2+allExerciseModel.time3}分" /></td>
-						</tr>
-					</c:forEach>
-					<tr class="scope-row">
-							<th class="table-text col-2 table-bordered"><c:out value="合計" /></td>
-							<td class="text col-2 table-bordered"><c:out value="${convertedTime1Sum}" /></td>
-							<td class="text col-2 table-bordered"><c:out value="${convertedTime2Sum}" /></td>
-							<td class="text col-2 table-bordered"><c:out value="${convertedTime3Sum}" /></td>
+									value="${convertedTime1Sum}" /></td>
+							<td class="text col-2 table-bordered"><c:out
+									value="${convertedTime2Sum}" /></td>
+							<td class="text col-2 table-bordered"><c:out
+									value="${convertedTime3Sum}" /></td>
 							<td class="text col-2 table-bordered"><c:out
 									value="${convertedAllTimeSum}" /></td>
 						</tr>
-				</table>
-			</div>
+					</table>
+				</div>
 			</c:when>
-  <c:otherwise>
-  <p class="text text-center">※運動履歴がありません</p>
-  </c:otherwise>
-</c:choose>
+			<c:otherwise>
+				<p class="text text-center">※運動履歴がありません</p>
+			</c:otherwise>
+		</c:choose>
 		<div class="row mt-2">
 			<div class="col-9"></div>
 			<a class="text text-dark" style="text-decoration: underline;"

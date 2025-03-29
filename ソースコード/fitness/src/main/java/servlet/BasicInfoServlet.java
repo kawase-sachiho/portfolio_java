@@ -80,7 +80,6 @@ public class BasicInfoServlet extends HttpServlet {
 			return;
 		}
 	}
-
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */

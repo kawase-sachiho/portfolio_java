@@ -54,6 +54,7 @@ public class HealthDeleteServlet extends HttpServlet {
 			HealthRecordLogic logic;
 			logic = new HealthRecordLogic();
 
+			//指定したIDの健康状態の記録を削除する
 			boolean result = logic.delete(id);
 			//削除処理が成功した場合
 			if (result) {

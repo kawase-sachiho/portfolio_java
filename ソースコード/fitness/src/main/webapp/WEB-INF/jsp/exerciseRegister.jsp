@@ -24,7 +24,6 @@
 					id="implementedDate"
 					value="<c:out value="${exercise.implementedDate}"/>">
 			</div>
-
 			<p class="text-center text-danger">${errors.implementedDate}</p>
 			<div class="row my-2">
 				<label class="text text-center col-4 col-form-label" for="time">時間(分)</label>

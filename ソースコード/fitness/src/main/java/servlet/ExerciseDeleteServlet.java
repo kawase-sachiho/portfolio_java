@@ -52,6 +52,7 @@ public class ExerciseDeleteServlet extends HttpServlet {
 			ExerciseLogic logic;
 			logic = new ExerciseLogic();
 
+			//指定したIDの運動記録を削除する
 			boolean result = logic.delete(id);
 
 			//削除処理が成功した場合

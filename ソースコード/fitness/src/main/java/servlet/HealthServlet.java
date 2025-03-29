@@ -73,9 +73,9 @@ public class HealthServlet extends HttpServlet {
 			ConvertLogic convertLogic=new ConvertLogic();
 			
 			//体重(kg)÷身長(m)÷身長(m)を小数点第二位四捨五入してBMIとする
-			for (HealthRecordModel list : healthRecordModels) {
-				double bmi = list.getWeight() / convertHeight / convertHeight;
-				list.setBmi(convertLogic.getRoundedNum(bmi));
+			for (HealthRecordModel model : healthRecordModels) {
+				double bmi = model.getWeight() / convertHeight / convertHeight;
+				model.setBmi(convertLogic.getRoundedNum(bmi));
 			}
 
 			request.setAttribute("healthRecordModels", healthRecordModels);
@@ -94,7 +94,6 @@ public class HealthServlet extends HttpServlet {
 		}
 
 	}
-
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
@@ -102,5 +101,4 @@ public class HealthServlet extends HttpServlet {
 			throws ServletException, IOException {
 		// TODO Auto-generated method stub
 	}
-
 }

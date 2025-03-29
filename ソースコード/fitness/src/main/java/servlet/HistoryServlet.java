@@ -48,8 +48,7 @@ public class HistoryServlet extends HttpServlet {
 			session.setAttribute("allExerciseModels", allExerciseModels);
 			
 			int totalDays=allExerciseModels.size();
-			session.setAttribute("totalDays", totalDays);
-			
+			request.setAttribute("totalDays", totalDays);
 			
 			//time1の合計を産出
 			int time1Sum=0;
@@ -62,7 +61,7 @@ public class HistoryServlet extends HttpServlet {
 	        ConvertLogic timeLogic=new ConvertLogic();
 	        String convertedTime1Sum=timeLogic.getTimeSum(time1Sum);
 			
-	        session.setAttribute("convertedTime1Sum", convertedTime1Sum);
+	        request.setAttribute("convertedTime1Sum", convertedTime1Sum);
 			
 			//time2の合計を産出
 			int time2Sum=0;
@@ -73,7 +72,7 @@ public class HistoryServlet extends HttpServlet {
 			
 			//time2の合計を時間単位に変換して保存する
 	        String convertedTime2Sum=timeLogic.getTimeSum(time2Sum);
-	        session.setAttribute("convertedTime2Sum", convertedTime2Sum);
+	        request.setAttribute("convertedTime2Sum", convertedTime2Sum);
 			
 			//time3の合計を産出
 			int time3Sum=0;
@@ -84,14 +83,14 @@ public class HistoryServlet extends HttpServlet {
 			
 			//time3の合計を時間単位に変換して保存する
 	        String convertedTime3Sum=timeLogic.getTimeSum(time3Sum);
-	        session.setAttribute("convertedTime3Sum", convertedTime3Sum);
+	        request.setAttribute("convertedTime3Sum", convertedTime3Sum);
 	        
 			//全ての時間の合計を産出
 	        int allTimeSum=time1Sum+time2Sum+time3Sum;
 	      
 	      //全てのtimeの合計を時間単位に変換して保存する
 	        String convertedAllTimeSum=timeLogic.getTimeSum(allTimeSum); 
-	        session.setAttribute("convertedAllTimeSum", convertedAllTimeSum);
+	        request.setAttribute("convertedAllTimeSum", convertedAllTimeSum);
 			
 			//運動履歴のページに遷移する
 			RequestDispatcher dispatcher = request.getRequestDispatcher("WEB-INF/jsp/history.jsp");
